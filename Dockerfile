@@ -5,7 +5,9 @@ WORKDIR /app
 COPY ./package.json .
 COPY ./package-lock.json .
 
-RUN npm install && npm cache clean --force
+RUN npm install -g cross-env && \
+    npm install && \
+    npm cache clean --force
 
 COPY . .
 
