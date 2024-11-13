@@ -22,4 +22,4 @@ const config: ConnectionOptions = {
   namingStrategy: new SnakeNamingStrategy(),
 };
 
-export = config;
+export default config;

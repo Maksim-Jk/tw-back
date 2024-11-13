@@ -2,21 +2,23 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
+  ManyToOne,
+  JoinColumn,
+  ManyToMany,
+  JoinTable,
+  OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
-  OneToMany,
-  JoinColumn,
 } from 'typeorm';
 
 import { Project } from '../projects/Project';
 import { User } from '../users/User';
 
 import { TaskFile } from './TaskFile';
-import { TaskFlag } from './TaskFlag';
-import { TaskPriority } from './TaskPriority';
-import { TaskStatus } from './TaskStatus';
-import { TaskType } from './TaskType';
+import { TaskFlagTypes } from './TaskFlagsTypes';
+import { TaskPriorityTypes } from './TaskPriorityTypes';
+import { TaskStatusTypes } from './TaskStatusTypes';
+import { TaskTypeTypes } from './TaskTypesTypes';
 
 @Entity('tasks')
 export class Task {
@@ -24,7 +26,7 @@ export class Task {
   id: number;
 
   @Column()
-  name: string;
+  title: string;
 
   @Column({ type: 'text', nullable: true })
   description: string;
@@ -32,27 +34,31 @@ export class Task {
   @Column({ nullable: true })
   page_url: string;
 
-  @ManyToOne(() => TaskType)
+  @ManyToOne(() => TaskTypeTypes)
   @JoinColumn({ name: 'type_id' })
-  type: TaskType;
+  type: TaskTypeTypes;
 
-  @ManyToOne(() => TaskStatus)
+  @ManyToOne(() => TaskStatusTypes)
   @JoinColumn({ name: 'status_id' })
-  status: TaskStatus;
+  status: TaskStatusTypes;
 
-  @ManyToOne(() => TaskPriority)
+  @ManyToOne(() => TaskPriorityTypes)
   @JoinColumn({ name: 'priority_id' })
-  priority: TaskPriority;
+  priority: TaskPriorityTypes;
 
-  @ManyToOne(() => TaskFlag)
-  @JoinColumn({ name: 'flag_id' })
-  flag: TaskFlag;
+  @ManyToMany(() => TaskFlagTypes)
+  @JoinTable({
+    name: 'task_flags',
+    joinColumn: { name: 'task_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'flag_id', referencedColumnName: 'id' },
+  })
+  flags: TaskFlagTypes[];
 
   @ManyToOne(() => Project)
   @JoinColumn({ name: 'project_id' })
   project: Project;
 
-  @OneToMany(() => TaskFile, (file) => file.task)
+  @OneToMany(() => TaskFile, (file: TaskFile) => file.task)
   files: TaskFile[];
 
   @ManyToOne(() => User)

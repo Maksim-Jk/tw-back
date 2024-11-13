@@ -1,24 +1,24 @@
 import { MigrationInterface, QueryRunner, getRepository } from 'typeorm';
 
-import { TaskType, TaskTypeEnum } from 'orm/entities/tasks/TaskType';
+import { TaskTypeTypes, TaskTypeEnum } from 'orm/entities/tasks/TaskTypesTypes';
 
 export class SeedTaskTypes1234567890101 implements MigrationInterface {
   name = 'SeedTaskTypes1234567890101';
-  
-  public async up(queryRunner: QueryRunner): Promise<void> {
-    const taskTypeRepository = getRepository(TaskType);
 
-    let taskType = new TaskType();
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    const taskTypeRepository = getRepository(TaskTypeTypes);
+
+    let taskType = new TaskTypeTypes();
     taskType.name = TaskTypeEnum.TASK;
     await taskTypeRepository.save(taskType);
 
-    taskType = new TaskType();
+    taskType = new TaskTypeTypes();
     taskType.name = TaskTypeEnum.QUESTION;
     await taskTypeRepository.save(taskType);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    const taskTypeRepository = getRepository(TaskType);
+    const taskTypeRepository = getRepository(TaskTypeTypes);
     await taskTypeRepository.clear();
   }
 }

@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('task_statuses')
-export class TaskStatus {
+@Entity('task_flags_types')
+export class TaskFlagTypes {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -13,9 +13,9 @@ export class TaskStatus {
   name: string;
 }
 
-export enum TaskStatusEnum {
-  COMPLETED = 'completed',
-  IN_PROGRESS = 'in_progress',
-  CREATED = 'created',
-  ARCHIVED = 'archived',
+export enum TaskFlagEnum {
+  URGENT = 'urgent',
+  IMPORTANT = 'important',
+  NORMAL = 'normal',
+  LOW_PRIORITY = 'low_priority',
 }

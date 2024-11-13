@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('task_flags')
-export class TaskFlag {
+@Entity('task_priorities_types')
+export class TaskPriorityTypes {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -13,9 +13,10 @@ export class TaskFlag {
   name: string;
 }
 
-export enum TaskFlagEnum {
-  URGENT = 'urgent',
-  IMPORTANT = 'important',
+export enum TaskPriorityEnum {
+  HIGHEST = 'highest',
+  HIGH = 'high',
   NORMAL = 'normal',
-  LOW_PRIORITY = 'low_priority',
+  LOW = 'low',
+  LOWEST = 'lowest',
 }

@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('task_priorities')
-export class TaskPriority {
+@Entity('task_statuses_types')
+export class TaskStatusTypes {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -13,10 +13,9 @@ export class TaskPriority {
   name: string;
 }
 
-export enum TaskPriorityEnum {
-  HIGHEST = 'highest',
-  HIGH = 'high',
-  NORMAL = 'normal',
-  LOW = 'low',
-  LOWEST = 'lowest',
+export enum TaskStatusEnum {
+  CREATED = 'created',
+  IN_PROGRESS = 'in_progress',
+  COMPLETED = 'completed',
+  ARCHIVED = 'archived',
 }

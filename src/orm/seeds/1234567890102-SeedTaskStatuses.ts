@@ -1,28 +1,21 @@
 import { MigrationInterface, QueryRunner, getRepository } from 'typeorm';
 
-import { TaskStatus, TaskStatusEnum } from 'orm/entities/tasks/TaskStatus';
+import { TaskStatusTypes, TaskStatusEnum } from 'orm/entities/tasks/TaskStatusTypes';
 
 export class SeedTaskStatuses1234567890102 implements MigrationInterface {
   name = 'SeedTaskStatuses1234567890102';
   public async up(queryRunner: QueryRunner): Promise<void> {
-    const statusRepository = getRepository(TaskStatus);
+    const statusRepository = getRepository(TaskStatusTypes);
 
-    const statuses = [
-      TaskStatusEnum.COMPLETED,
-      TaskStatusEnum.IN_PROGRESS,
-      TaskStatusEnum.CREATED,
-      TaskStatusEnum.ARCHIVED
-    ];
-
-    for (const statusName of statuses) {
-      const status = new TaskStatus();
+    for (const statusName of Object.values(TaskStatusEnum)) {
+      const status = new TaskStatusTypes();
       status.name = statusName;
       await statusRepository.save(status);
     }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    const statusRepository = getRepository(TaskStatus);
+    const statusRepository = getRepository(TaskStatusTypes);
     await statusRepository.clear();
   }
 }
