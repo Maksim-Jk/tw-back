@@ -12,7 +12,7 @@ import { User } from 'orm/entities/users/User';
 export class TaskController {
   static async create(req: Request, res: Response) {
     try {
-      const { title, description, page_url, type_id, status_id, priority_id, flag_ids, project_id } = req.body;
+      const { title, description, page_url, type_id, priority_id, flag_ids, project_id } = req.body;
 
       const task = new Task();
       task.title = title;
@@ -59,6 +59,7 @@ export class TaskController {
         LEFT JOIN task_flags tf ON t.id = tf.task_id
         ${whereClause}
         GROUP BY t.id
+        ORDER BY t.created_at DESC
       `);
 
       return res.customSuccess(200, 'Tasks successfully fetched.', tasks);
@@ -83,7 +84,7 @@ export class TaskController {
         });
       }
 
-      return res.json(task);
+      return res.customSuccess(200, 'Task successfully fetched.', ...task);
     } catch (error) {
       return res.status(500).json({
         message: 'Произошла ошибка при получении задачи',

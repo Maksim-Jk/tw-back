@@ -10,14 +10,14 @@ import { TaskTypeTypes } from 'orm/entities/tasks/TaskTypesTypes';
 export class SettingsController {
   static async getAll(req: Request, res: Response) {
     try {
-      const referer = req.headers.referer;
-      let projectId: number | null = null;
+      const referer = req.headers.origin;
+      let project_id: number | null = null;
 
       if (referer) {
         const projectRepository = getRepository(Project);
         const project = await projectRepository.findOne({ where: { url: referer } });
         if (project) {
-          projectId = project.id;
+          project_id = project.id;
         } else {
           return res.status(404).json({
             message: 'Проект не найден',
@@ -40,7 +40,7 @@ export class SettingsController {
       return res.status(200).json({
         message: 'Настройки успешно получены',
         data: {
-          projectId,
+          project_id,
           types,
           statuses,
           priorities,

@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { getRepository } from 'typeorm';
 
-import { Project } from 'orm/entities/projects/Project';
 import { Role } from 'orm/entities/users/types';
 import { User } from 'orm/entities/users/User';
 import { JwtPayload } from 'types/JwtPayload';
@@ -12,16 +11,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
   const { email, password, projectUrl } = req.body;
 
   const userRepository = getRepository(User);
-  const projectRepository = getRepository(Project);
 
   try {
-    const project = await projectRepository.findOne({ where: { url: projectUrl } });
-
-    if (!project) {
-      const customError = new CustomError(404, 'General', 'Not Found', ['Project not found']);
-      return next(customError);
-    }
-
     const user = await userRepository.findOne({ where: { email } });
 
     if (!user) {
