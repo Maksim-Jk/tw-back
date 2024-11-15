@@ -13,6 +13,8 @@ export class TaskFile {
   filename: string;
 
   @Column()
+  fileKey: string;
+  @Column()
   originalName: string;
 
   @Column()
